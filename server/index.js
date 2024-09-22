@@ -41,7 +41,7 @@ app.listen(port, (req, res) => {
 const { Server } = require("socket.io");
 
 const io = new Server({
-  cors: "https://yeen-react-chat-app.onrender.com:3000/",
+  cors: "https://chatapp.taiyeen.com:3000/",
 });
 
 let onlineUsers = [];
