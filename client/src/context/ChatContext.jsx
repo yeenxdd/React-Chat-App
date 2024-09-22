@@ -62,7 +62,7 @@ export const ChatContextProvider = ({ children, user }) => {
 
   //intialise socket
   useEffect(() => {
-    const newSocket = io("http://localhost:3000");
+    const newSocket = io("https://chatapp.taiyeen.com:3000");
     setSocket(newSocket);
 
     return () => {
