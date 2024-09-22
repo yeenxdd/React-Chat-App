@@ -1,6 +1,8 @@
-const { Server } = require("socket.io");
+/*const { Server } = require("socket.io");
 
-const io = new Server({ cors: "http://localhost:5173/" });
+const io = new Server({
+  cors: "https://yeen-react-chat-app.onrender.com:5173/",
+});
 
 let onlineUsers = [];
 
@@ -39,3 +41,4 @@ io.on("connection", (socket) => {
 });
 
 io.listen(3000);
+*/
