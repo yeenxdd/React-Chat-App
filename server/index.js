@@ -33,19 +33,32 @@ if (process.env.NODE_ENV === "production") {
 const port = process.env.PORT || 5001;
 const uri = process.env.ATLAS_URI;
 
-app.listen(port, (req, res) => {
-  console.log(`Server running on port: ${port}`);
-});
+// app.listen(port, (req, res) => {
+//   console.log(`Server running on port: ${port}`);
+// });
 
 // -------------------- Socket --------------------
-const { Server } = require("socket.io");
-const http = require("http");
-const server = http.createServer(app);
-const io = new Server(server);
+// const { Server } = require("socket.io");
+// const https = require("https");
+// const server = https.createServer(app);
+// const io = new Server(server);
 
 // const io = new Server({
 //   cors: "https://chatapp.taiyeen.com:3000/",
 // });
+
+const server = app.listen(
+  port,
+  console.log(`Server running on PORT ${port}...`),
+);
+
+const io = require("socket.io")(server, {
+  // pingTimeout: 60000,
+  cors: {
+    origin: "https://chatapp.taiyeen.com/",
+    // credentials: true,
+  },
+});
 
 let onlineUsers = [];
 
@@ -90,9 +103,9 @@ io.engine.on("connection_error", (err) => {
   console.log(err.context); // some additional error context
 });
 
-server.listen(3000, () => {
-  console.log("listening on *:3000");
-});
+// server.listen(3000, () => {
+//   console.log("listening on *:3000");
+// });
 // -------------------- Socket --------------------
 
 mongoose

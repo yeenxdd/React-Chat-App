@@ -60,9 +60,11 @@ export const ChatContextProvider = ({ children, user }) => {
   const [notifications, setNotifications] = useState([]);
   const [allUsers, setAllUsers] = useState([]);
 
+  const ENDPOINT =
+    /* "http://localhost:5001"; */ "https://chatapp.taiyeen.com/"; // -> After deployment
   //intialise socket
   useEffect(() => {
-    const newSocket = io();
+    const newSocket = io(ENDPOINT);
     setSocket(newSocket);
 
     return () => {
@@ -71,22 +73,27 @@ export const ChatContextProvider = ({ children, user }) => {
   }, [user]);
 
   //intialise socket
-  useEffect(() => {
-    socket.on("connect_error", (err) => {
-      // the reason of the error, for example "xhr poll error"
-      console.log(err.message);
+  // useEffect(() => {
+  //   socket.on("connection_error", (err) => {
+  //     // the reason of the error, for example "xhr poll error"
+  //     console.log(err.message);
 
-      // some additional description, for example the status code of the initial HTTP response
-      console.log(err.description);
+  //     // some additional description, for example the status code of the initial HTTP response
+  //     console.log(err.description);
 
-      // some additional context, for example the XMLHttpRequest object
-      console.log(err.context);
-    });
-  });
+  //     // some additional context, for example the XMLHttpRequest object
+  //     console.log(err.context);
+  //   });
+  // });
 
   // add online users
   useEffect(() => {
-    if (socket === null) return;
+    if (socket === null) {
+      console.error("socket is null");
+      return;
+    } else {
+      console.log("socket is not null");
+    }
     socket.emit("addNewUser", user?._id);
     socket.on("getOnlineUsers", (res) => {
       setOnlineUsers(res);
