@@ -39,10 +39,13 @@ app.listen(port, (req, res) => {
 
 // -------------------- Socket --------------------
 const { Server } = require("socket.io");
+const http = require("http");
+const server = http.createServer(app);
+const io = new Server(server);
 
-const io = new Server({
-  cors: "https://chatapp.taiyeen.com:3000/",
-});
+// const io = new Server({
+//   cors: "https://chatapp.taiyeen.com:3000/",
+// });
 
 let onlineUsers = [];
 
@@ -80,7 +83,16 @@ io.on("connection", (socket) => {
   });
 });
 
-io.listen(3000);
+io.engine.on("connection_error", (err) => {
+  console.log(err.req); // the request object
+  console.log(err.code); // the error code, for example 1
+  console.log(err.message); // the error message, for example "Session ID unknown"
+  console.log(err.context); // some additional error context
+});
+
+server.listen(3000, () => {
+  console.log("listening on *:3000");
+});
 // -------------------- Socket --------------------
 
 mongoose
